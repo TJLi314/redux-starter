@@ -1,17 +1,16 @@
-import * as actions from "./store/bugs";
 import storeBuilder from "./store/configureStore";
-import { projectAdded } from "./store/projects";
 
 const store = storeBuilder();
 
-store.subscribe(() => {
-  console.log("Store changed!");
+store.dispatch((dispatch, getState) => {
+  // Call an API
+  // When the promise is resolved => dispatch()
+  dispatch({ type: "bugsReceived", bugs: [1, 2, 3] });
+  console.log(getState());
+  // If the promise is rejected => dispatch()
 });
 
-store.dispatch(projectAdded({ name: "Project 1" }));
-store.dispatch(actions.bugAdded({ description: "Bug 1" }));
-store.dispatch(actions.bugAdded({ description: "Bug 2" }));
-store.dispatch(actions.bugAdded({ description: "Bug 3" }));
-store.dispatch(actions.bugResolved({ id: 1 }));
-
-console.log(store.getState());
+store.dispatch({
+  type: "error",
+  payload: { message: "An error occurred." },
+});
