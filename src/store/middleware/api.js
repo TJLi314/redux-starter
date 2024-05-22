@@ -6,9 +6,11 @@ const api =
   (next) =>
   (action) => {
     if (action.type !== actions.apiCallBegan.type) return next(action);
-    next(action);
 
-    const { url, method, data, onSuccess, onError } = action.payload;
+    const { url, method, data, onStart, onSuccess, onError } = action.payload;
+
+    if (onStart) dispatch({ type: onStart });
+    next(action);
 
     axios
       .request({
@@ -26,10 +28,10 @@ const api =
       })
       .catch((err) => {
         // General
-        dispatch(actions.apiCallFailed(err));
+        dispatch(actions.apiCallFailed(err.message));
 
         //specific
-        if (onError) dispatch({ type: onError, err });
+        if (onError) dispatch({ type: onError, payload: err.message });
       });
   };
 

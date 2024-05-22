@@ -1,13 +1,8 @@
 import storeBuilder from "./store/configureStore";
-import * as actions from "./store/api";
+import { loadBugs } from "./store/bugs";
 
 const store = storeBuilder();
 
-// store.dispatch(loadBugs());
+store.dispatch(loadBugs());
 
-store.dispatch(
-  actions.apiCallBegan({
-    url: "/bugs",
-    onSuccess: "bugs/bugsReceived",
-  })
-);
+setTimeout(() => store.dispatch(loadBugs()), 2000);
