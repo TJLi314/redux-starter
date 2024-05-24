@@ -1,8 +1,10 @@
 import storeBuilder from "./store/configureStore";
-import { loadBugs } from "./store/bugs";
+import { loadBugs, addBug, resolveBug, addUserToBug } from "./store/bugs";
 
 const store = storeBuilder();
 
 store.dispatch(loadBugs());
+// store.dispatch(addBug({ description: "a" }));
+store.dispatch(resolveBug(3));
 
-setTimeout(() => store.dispatch(loadBugs()), 2000);
+store.dispatch(addUserToBug(4, 69));
